@@ -1,12 +1,25 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Article
+from django.http import HttpResponseNotFound
 
 # Create your views here.
 def index(request):
+    articles = Article.objects.all()
     return render(request, 'news_blog/news_list.html', {'articles': articles})
 
 def get_article(request, article_id):
-    return render(request, 'news_blog/news_article.html', {'article': articles[article_id - 1]})
+   try:
+       article = Article.objects.get(id=article_id)
+       author = Author.objects.filter(article__pk=article_id)
+   except (Article.DoesNotExist, Author.DoesNotExist) as error:
+       return HttpResponseNotFound(error)
+   return render(request, 'news_blog/news_article.html',
+                 {'article': article,
+                  'author': author
+                  }
+                 )
+
 articles = [
    {
        'id': 1,
