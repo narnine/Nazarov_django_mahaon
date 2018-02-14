@@ -4,6 +4,15 @@
 
 {% block content %}
     {% if articles %}
+
+<div class="row">
+   <div class="col-sm">
+       <a href="{% url 'new_article' %}" class="top-menu">
+           Add news&nbsp;<span class="glyphicons glyphicons-plus"></span>
+       </a>
+   </div>
+</div>
+
         {% for article in articles %}
             <div class="row">
                 <div class="col-sm">
